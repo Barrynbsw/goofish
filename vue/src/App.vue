@@ -1,8 +1,17 @@
 <template>
-  <div style="width: 300px;height: 300px;border: black 1px solid" >
-  <van-button type="primary">主要按钮</van-button>
+  <div id="app">
+    <router-view></router-view>
   </div>
 </template>
+<script>
+export default {
+  name: 'app',
+  components: {
+
+  }
+
+}
+</script>
 
 <style lang="less">
 
