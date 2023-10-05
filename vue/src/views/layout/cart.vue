@@ -1,6 +1,6 @@
 <template>
   <div class="cart">
-    <van-nav-bar title="购物车" fixed />
+    <van-nav-bar title="卖闲置" fixed />
 
     <div v-if="isLogin && cartList.length > 0">
       <!-- 购物车开头 -->
@@ -48,11 +48,11 @@
     </div>
 
     <div class="empty-cart" v-else>
-      <img src="@/assets/empty.png" alt="">
+      <img src="@/assets/Screenshot_2023-10-05-12-33-17-43_0dff84d2da4d0ad.jpg" alt="">
       <div class="tips">
-        您的购物车是空的, 快去逛逛吧
+       您还没有宝贝上架哦
       </div>
-      <div class="btn" @click="$router.push('/')">去逛逛</div>
+      <div class="btn" @click="$router.push('/')">发闲置</div>
     </div>
 
   </div>
@@ -268,10 +268,10 @@ export default {
 }
 
 .empty-cart {
-  padding: 80px 30px;
+  //padding: 80px 30px;
   img {
-    width: 140px;
-    height: 92px;
+    width: 100%;
+    height: 200px;
     display: block;
     margin: 0 auto;
   }

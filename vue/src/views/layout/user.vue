@@ -48,51 +48,51 @@
     <div class="order-navbar">
       <div class="order-navbar-item" @click="$router.push('/myorder?dataType=all')">
         <van-icon name="balance-list-o" />
-        <span>全部订单</span>
+        <span>我发布的</span>
       </div>
       <div class="order-navbar-item" @click="$router.push('/myorder?dataType=payment')">
         <van-icon name="clock-o" />
-        <span>待支付</span>
+        <span>我卖出的</span>
       </div>
       <div class="order-navbar-item" @click="$router.push('/myorder?dataType=delivery')">
         <van-icon name="logistics" />
-        <span>待发货</span>
+        <span>我买到的</span>
       </div>
       <div class="order-navbar-item" @click="$router.push('/myorder?dataType=received')">
         <van-icon name="send-gift-o" />
-        <span>待收货</span>
+        <span>我可转卖的</span>
       </div>
     </div>
 
-    <div class="service">
-      <div class="title">我的服务</div>
-      <div class="content">
-        <div class="content-item">
-          <van-icon name="records" />
-          <span>收货地址</span>
-        </div>
-        <div class="content-item">
-          <van-icon name="gift-o" />
-          <span>领券中心</span>
-        </div>
-        <div class="content-item">
-          <van-icon name="gift-card-o" />
-          <span>优惠券</span>
-        </div>
-        <div class="content-item">
-          <van-icon name="question-o" />
-          <span>我的帮助</span>
-        </div>
-        <div class="content-item">
-          <van-icon name="balance-o" />
-          <span>我的积分</span>
-        </div>
-        <div class="content-item">
-          <van-icon name="refund-o" />
-          <span>退换/售后</span>
-        </div>
-      </div>
-    </div>
+<!--    <div class="service">-->
+<!--      <div class="title">我的服务</div>-->
+<!--      <div class="content">-->
+<!--        <div class="content-item">-->
+<!--          <van-icon name="records" />-->
+<!--          <span>收货地址</span>-->
+<!--        </div>-->
+<!--        <div class="content-item">-->
+<!--          <van-icon name="gift-o" />-->
+<!--          <span>领券中心</span>-->
+<!--        </div>-->
+<!--        <div class="content-item">-->
+<!--          <van-icon name="gift-card-o" />-->
+<!--          <span>优惠券</span>-->
+<!--        </div>-->
+<!--        <div class="content-item">-->
+<!--          <van-icon name="question-o" />-->
+<!--          <span>我的帮助</span>-->
+<!--        </div>-->
+<!--        <div class="content-item">-->
+<!--          <van-icon name="balance-o" />-->
+<!--          <span>我的积分</span>-->
+<!--        </div>-->
+<!--        <div class="content-item">-->
+<!--          <van-icon name="refund-o" />-->
+<!--          <span>退换/售后</span>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <div class="logout-btn">
      <button @click="logout">退出登录</button>

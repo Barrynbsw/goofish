@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- 导航条 -->
-    <van-nav-bar title="智慧商城" fixed />
+    <van-nav-bar title="闲鱼" fixed />
 
     <!-- 搜索框 -->
     <van-search
@@ -12,12 +12,12 @@
       @click="$router.push('/search')"
     />
 
-    <!-- 轮播图 -->
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item v-for="item in bannerList" :key="item.imgUrl">
-        <img :src="item.imgUrl" alt="">
-      </van-swipe-item>
-    </van-swipe>
+<!--    &lt;!&ndash; 轮播图 &ndash;&gt;-->
+<!--    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">-->
+<!--      <van-swipe-item v-for="item in bannerList" :key="item.imgUrl">-->
+<!--        <img :src="item.imgUrl" alt="">-->
+<!--      </van-swipe-item>-->
+<!--    </van-swipe>-->
 
     <!-- 导航 -->
     <van-grid column-num="5" icon-size="40">
@@ -80,7 +80,7 @@ export default {
 // 导航条样式定制
 .van-nav-bar {
   z-index: 999;
-  background-color: #c21401;
+  background-color: rgba(208, 176, 13, 0.92);
   ::v-deep .van-nav-bar__title {
     color: #fff;
   }
