@@ -1,56 +1,10 @@
 <template>
   <div class="cart">
     <van-nav-bar title="卖闲置" fixed />
-
-    <div v-if="isLogin && cartList.length > 0">
-      <!-- 购物车开头 -->
-      <div class="cart-title">
-        <span class="all">共<i>{{ cartTotal }}</i>件商品</span>
-        <span class="edit" @click="isEdit = !isEdit">
-          <van-icon name="edit" />
-          编辑
-        </span>
-      </div>
-
-      <!-- 购物车列表 -->
-      <div class="cart-list">
-        <div class="cart-item" v-for="item in cartList" :key="item.goods_id">
-          <van-checkbox @click="toggleCheck(item.goods_id)"  :value="item.isChecked"></van-checkbox>
-          <div class="show">
-            <img :src="item.goods.goods_image" alt="">
-          </div>
-          <div class="info">
-            <span class="tit text-ellipsis-2">{{ item.goods.goods_name }}</span>
-            <span class="bottom">
-              <div class="price">¥ <span>{{ item.goods.goods_price_min }}</span></div>
-              <!-- 既希望保留原本的形参，又需要通过调用函数传参 => 箭头函数包装一层 -->
-              <CountBox @input="(value) => changeCount(value, item.goods_id, item.goods_sku_id)" :value="item.goods_num"></CountBox>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-fixed">
-        <div @click="toggleAllCheck" class="all-check">
-          <van-checkbox :value="isAllChecked"  icon-size="18"></van-checkbox>
-          全选
-        </div>
-
-        <div class="all-total">
-          <div class="price">
-            <span>合计：</span>
-            <span>¥ <i class="totalPrice">{{ selPrice }}</i></span>
-          </div>
-          <div v-if="!isEdit" class="goPay" :class="{ disabled: selCount === 0 }"  @click="goPay">结算({{ selCount }})</div>
-          <div v-else @click="handleDel" class="delete" :class="{ disabled: selCount === 0 }" >删除</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="empty-cart" v-else>
+    <div class="empty-cart" >
       <img src="@/assets/Screenshot_2023-10-05-12-33-17-43_0dff84d2da4d0ad.jpg" alt="">
       <div class="tips">
-       您还没有宝贝上架哦
+       30s发布宝贝
       </div>
       <div class="btn" @click="$router.push('/')">发闲置</div>
     </div>
@@ -59,74 +13,27 @@
 </template>
 
 <script>
-import CountBox from '@/components/CountBox.vue'
-import { mapGetters, mapState } from 'vuex'
+
 export default {
   name: 'CartPage',
-  components: {
-    CountBox
-  },
   data () {
     return {
       isEdit: false
     }
   },
   computed: {
-    ...mapState('cart', ['cartList']),
-    ...mapGetters('cart', ['cartTotal', 'selCartList', 'selCount', 'selPrice', 'isAllChecked']),
     isLogin () {
       return this.$store.getters.token
     }
   },
   created () {
-    // 必须是登录过的用户，才能用户购物车列表
     if (this.isLogin) {
       this.$store.dispatch('cart/getCartAction')
     }
   },
   methods: {
-    toggleCheck (goodsId) {
-      this.$store.commit('cart/toggleCheck', goodsId)
-    },
-    toggleAllCheck () {
-      this.$store.commit('cart/toggleAllCheck', !this.isAllChecked)
-    },
-    changeCount (goodsNum, goodsId, goodsSkuId) {
-      // console.log(goodsNum, goodsId, goodsSkuId)
-      // 调用 vuex 的 action，进行数量的修改
-      this.$store.dispatch('cart/changeCountAction', {
-        goodsNum,
-        goodsId,
-        goodsSkuId
-      })
-    },
-    async handleDel () {
-      if (this.selCount === 0) return
-      await this.$store.dispatch('cart/delSelect')
-      this.isEdit = false
-    },
-    goPay () {
-      // 判断有没有选中商品
-      if (this.selCount > 0) {
-        // 有选中的 商品 才进行结算跳转
-        this.$router.push({
-          path: '/pay',
-          query: {
-            mode: 'cart',
-            cartIds: this.selCartList.map(item => item.id).join(',') // 'cartId,cartId,cartId'
-          }
-        })
-      }
-    }
   },
   watch: {
-    isEdit (value) {
-      if (value) {
-        this.$store.commit('cart/toggleAllCheck', false)
-      } else {
-        this.$store.commit('cart/toggleAllCheck', true)
-      }
-    }
   }
 }
 </script>
