@@ -30,6 +30,6 @@ public class UserController {
     }
     @PostMapping("logout")
     public result logout(HttpServletRequest r){
-        //r.getSession().removeAttribute("users");
+        r.getSession().removeAttribute("users");
         return result.success();
     }}
