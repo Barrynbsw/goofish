@@ -24,7 +24,7 @@
       <van-grid-item
         v-for="item in navList" :key="item.imgUrl"
         :icon="item.imgUrl"
-        text="新品首发"
+        text=item.text
         @click="$router.push('/category')"
       />
     </van-grid>

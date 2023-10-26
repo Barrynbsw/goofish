@@ -1,11 +1,8 @@
 package com.example.backened.filter;
-
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import org.springframework.util.AntPathMatcher;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(filterName = "LoginCheckFilter",urlPatterns = "/*")
@@ -15,28 +12,21 @@ public class LoginCheckFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest r = (HttpServletRequest) request;
-
-        //1、获取本次请求的URI
-        String requestURI = r.getRequestURI();// /backend/index.html
-
-
+        String requestURI = r.getRequestURI();
         String[] urls = new String[]{
                 "/user/login",
                 "/user/logout"
         };
        boolean check=check(requestURI,urls);
        if(check){
-           chain.doFilter(request, response);//调用"过滤器链"方法
+           chain.doFilter(request, response);
            return;
        }
         if(r.getSession().getAttribute("user")!=null){
-            chain.doFilter(request, response);//调用"过滤器链"方法
+            chain.doFilter(request, response);
         }
         return;
     }
-
-
-
     public boolean check(String URL,String[] urls)
     {
 
