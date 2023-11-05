@@ -1,16 +1,15 @@
 <template>
-  <div v-if="item.goods_id" class="goods-item" @click="$router.push(`/prodetail/${item.goods_id}`)">
+  <div v-if="item.productID" class="goods-item" @click="$router.push(`/prodetail/${item.productID}`)">
     <div class="left">
-      <img :src="item.goods_image" alt="" />
+      <img :src="item.imageURL" alt="" />
     </div>
     <div class="right">
       <p class="tit text-ellipsis-2">
-        {{ item.goods_name }}
+        {{ item.title}}
       </p>
-      <p class="count">已售 {{ item.goods_sales }} 件</p>
+      <p class="count"> {{ item.intentnum }} 人想要</p>
       <p class="price">
-        <span class="new">¥{{ item.goods_price_min }}</span>
-        <span class="old">¥{{ item.goods_price_max }}</span>
+        <span class="new">¥{{ item.price }}</span>
       </p>
     </div>
   </div>
@@ -18,15 +17,7 @@
 
 <script>
 export default {
-  name: 'GoodsItem',
-  props: {
-    item: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    }
-  }
+  name: 'GoodsItem'
 }
 </script>
 

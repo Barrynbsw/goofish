@@ -11,63 +11,78 @@
       placeholder="请在此输入搜索关键词"
       @click="$router.push('/search')"
     />
-
-<!--    &lt;!&ndash; 轮播图 &ndash;&gt;-->
-<!--    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">-->
-<!--      <van-swipe-item v-for="item in bannerList" :key="item.imgUrl">-->
-<!--        <img :src="item.imgUrl" alt="">-->
-<!--      </van-swipe-item>-->
-<!--    </van-swipe>-->
-
-    <!-- 导航 -->
     <van-grid column-num="5" icon-size="40">
-      <van-grid-item
-        v-for="item in navList" :key="item.imgUrl"
-        :icon="item.imgUrl"
-        text=item.text
-        @click="$router.push('/category')"
-      />
+    <van-grid-item
+      v-for="item in navList" :key="item.categoryID"
+      :icon=setIcon(item.categoryID)
+      :text=item.categoryName
+      @click="$router.push('/category')"
+    />
     </van-grid>
-
-    <!-- 主会场 -->
     <div class="main">
       <img src="@/assets/main.png" alt="">
     </div>
-
     <!-- 猜你喜欢 -->
     <div class="guess">
       <p class="guess-title">—— 猜你喜欢 ——</p>
-
-      <div class="goods-list">
-        <GoodsItem v-for="item in proList" :key="item.goods_id" :item="item"></GoodsItem>
+      <div class="goods-list" v-for="item in proList" :key="item.productID" :item="item" >
+        <div v-if="item.productID!=0" class="goods-item" @click="$router.push(`/prodetail/${item.productID}`)">
+          <div class="left">
+            <el-image :src="imgPathConvert(item.imageURL)" lazy>
+            </el-image>
+          </div>
+          <div class="right">
+            <p class="tit text-ellipsis-2">
+              {{ item.title}}
+            </p>
+            <p class="count"> {{ item.intentnum }} 人想要</p>
+            <p class="price">
+              <span class="new">¥{{ item.price }}</span>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import GoodsItem from '@/components/GoodsItem.vue'
-import { getHomeData } from '@/api/home'
+import request from '@/utils/request'
+const imgPath = path => 'http://localhost:9090/common/download?name=' + path
 export default {
   name: 'HomePage',
-  components: {
-    GoodsItem
-  },
+
   data () {
     return {
       bannerList: [], // 轮播
-      navList: [], // 导航
-      proList: [] // 商品
+      navList: [],
+      proList: [],
+      img: ' '
     }
   },
-  async created () {
-    const { data: { pageData } } = await getHomeData()
-    this.bannerList = pageData.items[1].data
-    this.navList = pageData.items[3].data
-    this.proList = pageData.items[6].data
-    console.log(this.proList)
+  created () {
+    request.get('/category/list').then(res => {
+      this.navList = res.data
+    })
+    request.get('/product/guess').then(res => {
+      this.proList = res.data
+    })
+  },
+  methods: {
+    setIcon (ID) {
+      // eslint-disable-next-line eqeqeq
+      if (ID % 3 == 0) {
+        return 'bag-o'
+        // eslint-disable-next-line eqeqeq
+      } else if (ID % 3 == 1) { return 'gem-o' } else if (ID % 3 == 2) { return 'gift-o' }
+      return 'new-arrival-o'
+    },
+    imgPathConvert (path) {
+      return imgPath(path)
+    }
   }
 }
+
 </script>
 
 <style lang="less" scoped>
@@ -123,5 +138,66 @@ export default {
 // 商品样式
 .goods-list {
   background-color: #f6f6f6;
+}
+.goods-item {
+  height: 148px;
+  margin-bottom: 6px;
+  padding: 10px;
+  background-color: #fff;
+  display: flex;
+  .left {
+    width: 127px;
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+  .right {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.3;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    .count {
+      color: #999;
+      font-size: 12px;
+    }
+    .price {
+      color: #999;
+      font-size: 16px;
+      .new {
+        color: #f03c3c;
+        margin-right: 10px;
+      }
+      .old {
+        text-decoration: line-through;
+        font-size: 12px;
+      }
+    }
+  }
+}
+#divType ul {
+  margin-top: 61rem;
+  overflow-y: auto;
+  height: calc(100% - 61rem);
+  padding-bottom: 200rem;
+  box-sizing: border-box;
+  width: 84rem;
+  opacity: 1;
+  background: #f6f6f6;
+  padding: 16rem;
+  opacity: 1;
+  font-size: 13rem;
+  font-family: PingFangSC, PingFangSC-Regular;
+  font-weight: 400;
+  text-align: left;
+  color: #666666;
+  line-height: 18rem;
+  letter-spacing: 0rem;
+  word-wrap: break-word;
+  word-break: normal;
 }
 </style>
